@@ -1,5 +1,5 @@
-import 'package:cinebox/config/env.dart';
 import 'package:cinebox/ui/core/themes/resource.dart';
+import 'package:cinebox/ui/core/widgets/loader_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,44 +10,30 @@ class SplashScreen extends ConsumerStatefulWidget {
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen>
+    with LoaderAndMessage {
   @override
   void initState() {
     super.initState();
-    _navigateToNextScreen();
-  }
-
-  Future<void> _navigateToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => Container(
-            color: Colors.white,
-            child: Center(
-              child: Text(
-                Env.backendBaseUrl,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(R.ASSETS_IMAGES_LOGO_PNG, width: 150),
-            const SizedBox(height: 20),
-            const CircularProgressIndicator(),
-          ],
-        ),
+      body: Stack(
+        children: [
+          Image.asset(
+            R.ASSETS_IMAGES_BG_LOGIN_PNG,
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+          ),
+          Container(
+            constraints: BoxConstraints.expand(),
+            color: Colors.black45,
+          ),
+          Center(child: Image.asset(R.ASSETS_IMAGES_LOGO_PNG)),
+        ],
       ),
     );
   }
