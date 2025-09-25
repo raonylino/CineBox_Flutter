@@ -1,3 +1,9 @@
+import 'dart:developer';
+
+import 'package:cinebox/core/themes/resource.dart';
+import 'package:cinebox/ui/login/commads/login_with_google_command.dart';
+import 'package:cinebox/ui/login/login_view_model.dart';
+import 'package:cinebox/ui/login/widgets/sign_in_google_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,10 +17,48 @@ class LoginScrean extends ConsumerStatefulWidget {
 class _LoginScreanState extends ConsumerState<LoginScrean> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Center(
-        child: Text('Login'),
+    return Scaffold(
+      body: Stack(
+        children: [
+          Image.asset(
+            R.ASSETS_IMAGES_BG_LOGIN_PNG,
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+          ),
+          Container(
+            constraints: BoxConstraints.expand(),
+            color: Colors.black45,
+          ),
+          Container(
+            constraints: BoxConstraints.expand(),
+            child: Column(
+              spacing: 48,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 100),
+                  child: Image.asset(R.ASSETS_IMAGES_LOGO_PNG),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      final state = ref.watch(loginWithGoogleCommandProvider);
+                      return SignInGoogleButton(
+                        isLoading: state.isLoading,
+                        onPressed: () {
+                          log('Entrar com o Google');
+                          final viewModel = ref.read(loginViewModelProvider);
+                          viewModel.googleLogin();
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
