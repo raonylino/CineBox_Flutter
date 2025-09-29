@@ -9,26 +9,23 @@ class GoogleSigninServiceImpl implements GoogleSigninService {
   @override
   Future<Result<String>> isSignedIn() async {
     try {
-      final isSignedIn = await GoogleSignIn.instance
+      final logged = await GoogleSignIn.instance
           .attemptLightweightAuthentication();
 
-      if (isSignedIn case GoogleSignInAuthentication(
-        idToken: final idToken?,
+      if (logged case GoogleSignInAccount(
+        authentication: GoogleSignInAuthentication(:final idToken?),
       )) {
         return Success(idToken);
       }
-      return Failure('Failed to retrieve ID token from Google is Sign-In');
+      return Failure(Exception('User is not signed in Google'));
     } catch (e, s) {
       log(
-        'Failed to sign out with Google',
-        name: 'GoogleSigninService',
+        'User is not signed in Google',
+        name: 'GoogleSignInService',
         error: e,
         stackTrace: s,
       );
-      return Failure(
-        'Error:',
-        Exception('Failed to retrieve ID token from Google is Sign-in'),
-      );
+      return Failure(Exception('User is not signed in Google'));
     }
   }
 
@@ -36,28 +33,26 @@ class GoogleSigninServiceImpl implements GoogleSigninService {
   Future<Result<String>> signIn() async {
     try {
       final auth = await GoogleSignIn.instance.authenticate(
-        scopeHint: [
-          'email',
-          'profile',
-          'openid',
-        ],
+        scopeHint: ['email', 'profile', 'openid'],
       );
+
       if (auth.authentication case GoogleSignInAuthentication(
         idToken: final idToken?,
       )) {
         return Success(idToken);
       }
-      return Failure('Failed to retrieve ID token from Google Sign-In');
+      return Failure(
+        Exception('Failed to retrive ID Token from Google Sign-In'),
+      );
     } catch (e, s) {
       log(
-        'Failed to sign in with Google',
-        name: 'GoogleSigninService',
+        'Failed to retrive ID Token from Google Sign-In',
+        name: 'GoogleSignInService',
         error: e,
         stackTrace: s,
       );
       return Failure(
-        'Error:',
-        Exception('Failed to retrieve ID token from Google Sign-in'),
+        Exception('Failed to retrive ID Token from Google Sign-In'),
       );
     }
   }
@@ -66,17 +61,16 @@ class GoogleSigninServiceImpl implements GoogleSigninService {
   Future<Result<Unit>> signOut() async {
     try {
       await GoogleSignIn.instance.signOut();
-      return sucessOfUnit();
+      return successOfUnit();
     } catch (e, s) {
       log(
-        'Failed to sign out with Google',
-        name: 'GoogleSigninService',
+        'Google Sign-Out error',
+        name: 'GoogleSignInService',
         error: e,
         stackTrace: s,
       );
       return Failure(
-        'Error:',
-        Exception('Failed to retrieve ID token from Google Sign-out'),
+        Exception('Google Sign-out error'),
       );
     }
   }

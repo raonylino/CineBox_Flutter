@@ -1,5 +1,6 @@
-class DataException {
+class DataException implements Exception {
   final String message;
+
   DataException({required this.message});
 
   @override

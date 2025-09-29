@@ -1,5 +1,5 @@
-import 'package:cinebox/core/themes/colors.dart';
-import 'package:cinebox/core/themes/resource.dart';
+import 'package:cinebox/ui/core/themes/colors.dart';
+import 'package:cinebox/ui/core/themes/resource.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 

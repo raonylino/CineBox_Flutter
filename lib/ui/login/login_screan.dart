@@ -1,6 +1,6 @@
-import 'dart:developer';
-
-import 'package:cinebox/core/themes/resource.dart';
+import 'package:cinebox/core/constants/app_routers.dart';
+import 'package:cinebox/ui/core/themes/resource.dart';
+import 'package:cinebox/ui/core/widgets/loader_message.dart';
 import 'package:cinebox/ui/login/commads/login_with_google_command.dart';
 import 'package:cinebox/ui/login/login_view_model.dart';
 import 'package:cinebox/ui/login/widgets/sign_in_google_button.dart';
@@ -14,9 +14,21 @@ class LoginScrean extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreanState();
 }
 
-class _LoginScreanState extends ConsumerState<LoginScrean> {
+class _LoginScreanState extends ConsumerState<LoginScrean>
+    with LoaderAndMessage {
   @override
   Widget build(BuildContext context) {
+    ref.listen(loginWithGoogleCommandProvider, (previous, state) {
+      state.whenOrNull(
+        data: (_) {
+          Navigator.pushReplacementNamed(context, AppRouters.home);
+        },
+        error: (error, stackTrace) {
+          showErrorSnackbar('Erro ao realizar login');
+        },
+      );
+    });
+
     return Scaffold(
       body: Stack(
         children: [
@@ -47,7 +59,6 @@ class _LoginScreanState extends ConsumerState<LoginScrean> {
                       return SignInGoogleButton(
                         isLoading: state.isLoading,
                         onPressed: () {
-                          log('Entrar com o Google');
                           final viewModel = ref.read(loginViewModelProvider);
                           viewModel.googleLogin();
                         },

@@ -7,24 +7,22 @@ part 'login_with_google_command.g.dart';
 @riverpod
 class LoginWithGoogleCommand extends _$LoginWithGoogleCommand {
   @override
-  AsyncValue<void> build() => const AsyncData(null);
+  AsyncValue<void> build() => AsyncData(null);
 
   Future<void> execute() async {
-    state = const AsyncLoading();
-    final authReposotory = ref.read(authRepositoryProvider);
+    state = AsyncLoading();
+    final authRepository = ref.read(authRepositoryProvider);
 
-    final result = await authReposotory.signIn();
+    final result = await authRepository.signIn();
 
     switch (result) {
       case Success<Unit>():
-        state = const AsyncData(null);
-        break;
+        state = AsyncData(null);
       case Failure<Unit>():
         state = AsyncError(
           'Erro ao realizar login, entre em contato com o suporte',
           StackTrace.current,
         );
-        break;
     }
   }
 }

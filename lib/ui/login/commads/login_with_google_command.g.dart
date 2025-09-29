@@ -42,7 +42,7 @@ final class LoginWithGoogleCommandProvider
 }
 
 String _$loginWithGoogleCommandHash() =>
-    r'dd9d3a9aa21709bfbd3290d91201b79c717b73ab';
+    r'291fa1558db667f9ae3c13c687ebb31631c4b7d7';
 
 abstract class _$LoginWithGoogleCommand extends $Notifier<AsyncValue<void>> {
   AsyncValue<void> build();

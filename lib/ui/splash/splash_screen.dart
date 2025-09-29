@@ -1,6 +1,6 @@
 import 'package:cinebox/core/constants/app_routers.dart';
-import 'package:cinebox/core/themes/resource.dart';
-import 'package:cinebox/core/widgets/loader_message.dart';
+import 'package:cinebox/ui/core/themes/resource.dart';
+import 'package:cinebox/ui/core/widgets/loader_message.dart';
 import 'package:cinebox/ui/splash/commands/check_user_logged_command.dart';
 import 'package:cinebox/ui/splash/splash_view_model.dart';
 import 'package:flutter/material.dart';
@@ -34,13 +34,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             _ => '',
           };
           if (path.isNotEmpty && context.mounted) {
-            showSuccessSnackbar('Usuário logado com sucesso');
             Navigator.pushNamedAndRemoveUntil(context, path, (route) => false);
           }
         },
         error: (error, stackTrace) {
           if (context.mounted) {
-            showErrorSnackbar('Erro ao verificar usuário');
             Navigator.pushNamedAndRemoveUntil(
               context,
               AppRouters.login,
