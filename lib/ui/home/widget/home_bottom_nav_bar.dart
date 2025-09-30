@@ -33,7 +33,7 @@ class _HomeBottomNavBarState extends State<HomeBottomNavBar> {
           enableFeedback: false,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
-          currentIndex: 1,
+          currentIndex: 0,
           selectedItemColor: AppColors.redColor,
           unselectedItemColor: AppColors.lightGrey,
           selectedLabelStyle: const TextStyle(

@@ -4,7 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MovieCard extends ConsumerStatefulWidget {
-  const MovieCard({super.key});
+  final int id;
+  final String title;
+  final int year;
+  final String imageUrl;
+  final bool isFavorite;
+  final VoidCallback? onFavoriteTap;
+
+  const MovieCard({
+    super.key,
+    required this.id,
+    required this.title,
+    required this.year,
+    required this.imageUrl,
+    required this.isFavorite,
+    this.onFavoriteTap,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MovieCardState();
@@ -22,8 +37,7 @@ class _MovieCardState extends ConsumerState<MovieCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CachedNetworkImage(
-                imageUrl:
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNjVkTwTcer1YwI7dnU86Evv6JTv1eA1qU4Q&s',
+                imageUrl: widget.imageUrl,
                 imageBuilder: (context, imageProvider) {
                   return Container(
                     width: 148,
@@ -59,7 +73,7 @@ class _MovieCardState extends ConsumerState<MovieCard> {
               ),
               SizedBox(height: 20),
               Text(
-                'Filme 1',
+                widget.title,
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
@@ -69,7 +83,7 @@ class _MovieCardState extends ConsumerState<MovieCard> {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                '2023',
+                widget.year.toString(),
                 style: TextStyle(
                   color: AppColors.lightGrey,
                   fontWeight: FontWeight.w400,

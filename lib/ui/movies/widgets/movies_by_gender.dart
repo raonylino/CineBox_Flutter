@@ -14,7 +14,11 @@ class _MoviesByGenderState extends ConsumerState<MoviesByGender> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 130),
-      child: MoviesBox(title: 'Filmes Encontrados', vertical: true),
+      child: MoviesBox(
+        title: 'Filmes Encontrados',
+        vertical: true,
+        movies: [],
+      ),
     );
   }
 }
