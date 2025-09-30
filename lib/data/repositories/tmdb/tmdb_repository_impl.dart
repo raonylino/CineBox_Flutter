@@ -4,6 +4,7 @@ import 'package:cinebox/config/result/result.dart';
 import 'package:cinebox/data/exceptions/data_exception.dart';
 import 'package:cinebox/data/mappers/movie_mappers.dart';
 import 'package:cinebox/data/services/tmdb/tmdb_service.dart';
+import 'package:cinebox/domain/models/genre.dart';
 import 'package:cinebox/domain/models/movie.dart';
 import 'package:dio/dio.dart';
 
@@ -106,6 +107,47 @@ class TmdbRepositoryImpl implements TmdbRepository {
       );
       return Failure(
         DataException(message: 'Erro ao buscar filmes lancamentos'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<List<Genre>>> getMovieGenres() async {
+    try {
+      final data = await _tmdbService.getMovieGenres();
+      final genres = data.genres
+          .map((e) => Genre(id: e.id, name: e.name))
+          .toList();
+      return Success(genres);
+    } on DioException catch (e, s) {
+      log(
+        'Erro ao buscar generos de filmes',
+        name: 'TmdbRepository',
+        error: e,
+        stackTrace: s,
+      );
+      return Failure(
+        DataException(message: 'Erro ao buscar generos de filmes'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<List<Movie>>> getMoviesByGenre({required int genreId}) async {
+    try {
+      final data = await _tmdbService.getDiscoverMovie(
+        withGenres: genreId.toString(),
+      );
+      return Success(MovieMappers.toMovies(data));
+    } on DioException catch (e, s) {
+      log(
+        'Erro ao buscar filmes por genero',
+        name: 'TmdbRepository',
+        error: e,
+        stackTrace: s,
+      );
+      return Failure(
+        DataException(message: 'Erro ao buscar filmes por genero'),
       );
     }
   }

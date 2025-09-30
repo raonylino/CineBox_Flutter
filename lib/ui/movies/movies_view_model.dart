@@ -1,3 +1,4 @@
+import 'package:cinebox/ui/movies/commands/get_movie_by_genre_command.dart';
 import 'package:cinebox/ui/movies/commands/get_movies_by_category_command.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,5 +21,10 @@ class MoviesViewModel extends _$MoviesViewModel {
   Future<void> fetchMoviesByCategory() async {
     await changeView(MoviesViewEnum.byCategory);
     await ref.read(getMoviesByCategoryCommandProvider.notifier).execute();
+  }
+
+  Future<void> fetchMoviesByGenre(int genreId) async {
+    await changeView(MoviesViewEnum.byGenre);
+    await ref.read(getMovieByGenreCommanProvider.notifier).execute(genreId);
   }
 }
