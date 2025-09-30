@@ -6,6 +6,7 @@ import 'package:cinebox/ui/login/login_view_model.dart';
 import 'package:cinebox/ui/login/widgets/sign_in_google_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginScrean extends ConsumerStatefulWidget {
   const LoginScrean({super.key});
@@ -45,12 +46,60 @@ class _LoginScreanState extends ConsumerState<LoginScrean>
           Container(
             constraints: BoxConstraints.expand(),
             child: Column(
-              spacing: 48,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 100),
-                  child: Image.asset(R.ASSETS_IMAGES_LOGO_PNG),
+                  child: Lottie.asset(
+                    'assets/lotties/popcorn.json',
+                    height: 200,
+                    width: 200,
+
+                    fit: BoxFit.cover,
+                  ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 0),
+                  child: Stack(
+                    children: [
+                      // Borda (stroke)
+                      Text(
+                        'CineBox',
+                        style: TextStyle(
+                          fontSize: 42,
+                          fontFamily: 'CinzelDecorative',
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 2.5
+                            ..color = Colors.black,
+                        ),
+                      ),
+                      // Preenchimento amarelo por cima
+                      Text(
+                        'CineBox',
+                        style: TextStyle(
+                          fontSize: 42,
+                          fontFamily: 'CinzelDecorative',
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          color: Colors.amber[400],
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2, 2),
+                              blurRadius: 4.0,
+                              color: Colors.black45,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Consumer(

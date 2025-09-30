@@ -5,6 +5,7 @@ import 'package:cinebox/ui/splash/commands/check_user_logged_command.dart';
 import 'package:cinebox/ui/splash/splash_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -62,7 +63,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             constraints: BoxConstraints.expand(),
             color: Colors.black45,
           ),
-          Center(child: Image.asset(R.ASSETS_IMAGES_LOGO_PNG)),
+          Center(
+            child: Lottie.asset('assets/lotties/popcorn.json'),
+          ),
         ],
       ),
     );
