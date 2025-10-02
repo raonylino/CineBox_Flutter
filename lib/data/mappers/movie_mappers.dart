@@ -2,7 +2,7 @@ import 'package:cinebox/data/models/movie_response.dart';
 import 'package:cinebox/domain/models/movie.dart';
 
 class MovieMappers {
-  static List<Movie> toMovies(MovieResponse movieResponse) {
+  static List<Movie> mapToMovies(MovieResponse movieResponse) {
     return movieResponse.results
         .map(
           (movie) => Movie(

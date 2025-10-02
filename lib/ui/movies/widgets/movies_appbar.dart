@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cinebox/ui/core/themes/resource.dart';
+import 'package:cinebox/ui/movies/movies_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +13,34 @@ class MoviesAppbar extends ConsumerStatefulWidget {
 }
 
 class _MoviesAppbarState extends ConsumerState<MoviesAppbar> {
+  Timer? _debounce;
+  final _searchController = TextEditingController();
+  final _showClearButton = ValueNotifier<bool>(false);
+
+  @override
+  void initState() {
+    _searchController.addListener(
+      () {
+        _showClearButton.value = _searchController.text.isNotEmpty;
+      },
+    );
+    super.initState();
+  }
+
+  void onSearchChanged(String query) {
+    if (query.isEmpty) {
+      _debounce?.cancel();
+      ref.read(moviesViewModelProvider.notifier).fetchMoviesByCategory();
+      return;
+    }
+
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      FocusScope.of(context).unfocus();
+      ref.read(moviesViewModelProvider.notifier).fetchMoviesByName(query);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -30,6 +61,8 @@ class _MoviesAppbarState extends ConsumerState<MoviesAppbar> {
         title: SizedBox(
           height: 30,
           child: TextFormField(
+            controller: _searchController,
+            onChanged: onSearchChanged,
             style: TextStyle(
               color: Colors.grey[600],
               fontWeight: FontWeight.w400,
@@ -62,6 +95,34 @@ class _MoviesAppbarState extends ConsumerState<MoviesAppbar> {
                   Icons.search,
                   size: 16,
                   color: Colors.grey[600],
+                ),
+              ),
+              suffixIconConstraints: BoxConstraints(
+                minHeight: 0,
+                minWidth: 0,
+              ),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: ValueListenableBuilder(
+                  valueListenable: _showClearButton,
+                  builder: (context, value, child) {
+                    return Visibility(
+                      visible: value,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.clear,
+                          size: 15,
+                          color: Colors.grey[600],
+                        ),
+                        onPressed: () {
+                          _searchController.clear();
+                          ref
+                              .read(moviesViewModelProvider.notifier)
+                              .fetchMoviesByCategory();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

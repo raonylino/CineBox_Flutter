@@ -25,7 +25,7 @@ class TmdbRepositoryImpl implements TmdbRepository {
         language: language,
         page: page,
       );
-      return Success(MovieMappers.toMovies(moviesData));
+      return Success(MovieMappers.mapToMovies(moviesData));
     } on DioException catch (e, s) {
       log(
         'Erro ao buscar filmes populares',
@@ -49,7 +49,7 @@ class TmdbRepositoryImpl implements TmdbRepository {
         language: language,
         page: page,
       );
-      return Success(MovieMappers.toMovies(moviesData));
+      return Success(MovieMappers.mapToMovies(moviesData));
     } on DioException catch (e, s) {
       log(
         'Erro ao buscar filmes em cartaz',
@@ -73,7 +73,7 @@ class TmdbRepositoryImpl implements TmdbRepository {
         language: language,
         page: page,
       );
-      return Success(MovieMappers.toMovies(moviesData));
+      return Success(MovieMappers.mapToMovies(moviesData));
     } on DioException catch (e, s) {
       log(
         'Erro ao buscar top filmes ',
@@ -97,7 +97,7 @@ class TmdbRepositoryImpl implements TmdbRepository {
         language: language,
         page: page,
       );
-      return Success(MovieMappers.toMovies(moviesData));
+      return Success(MovieMappers.mapToMovies(moviesData));
     } on DioException catch (e, s) {
       log(
         'Erro ao buscar filmes lancamentos',
@@ -138,7 +138,7 @@ class TmdbRepositoryImpl implements TmdbRepository {
       final data = await _tmdbService.getDiscoverMovie(
         withGenres: genreId.toString(),
       );
-      return Success(MovieMappers.toMovies(data));
+      return Success(MovieMappers.mapToMovies(data));
     } on DioException catch (e, s) {
       log(
         'Erro ao buscar filmes por genero',
@@ -148,6 +148,24 @@ class TmdbRepositoryImpl implements TmdbRepository {
       );
       return Failure(
         DataException(message: 'Erro ao buscar filmes por genero'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<List<Movie>>> searchMovies({required String query}) async {
+    try {
+      final data = await _tmdbService.searchMovies(query: query);
+      return Success(MovieMappers.mapToMovies(data));
+    } on DioException catch (e, s) {
+      log(
+        'Erro ao buscar filmes por nome',
+        name: 'TmdbRepository',
+        error: e,
+        stackTrace: s,
+      );
+      return Failure(
+        DataException(message: 'Erro ao buscar filmes por nome'),
       );
     }
   }
