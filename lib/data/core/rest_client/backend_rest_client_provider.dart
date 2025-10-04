@@ -1,7 +1,9 @@
+import 'package:cinebox/cinebox_main_app.dart';
 import 'package:cinebox/config/env.dart';
-import 'package:cinebox/config/result/result.dart';
+import 'package:cinebox/core/result/result.dart';
 import 'package:cinebox/data/services/services_provider.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'backend_rest_client_provider.g.dart';
@@ -31,10 +33,10 @@ class BackendAuthInterceptor extends Interceptor {
     if (response?.statusCode == 401) {
       final localStorage = ref.read(localStorageServiceProvider);
       localStorage.removeIdToken();
-      // //Navegar para o login!!!
-      // Navigator.of(
-      //   navKey.currentContext!,
-      // ).pushNamedAndRemoveUntil('/login', (_) => false);
+      //Navegar para o login!!!
+      Navigator.of(
+        navKey.currentContext!,
+      ).pushNamedAndRemoveUntil('/login', (_) => false);
     }
     handler.reject(err);
   }

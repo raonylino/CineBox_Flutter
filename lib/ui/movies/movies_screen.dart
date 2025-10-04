@@ -7,14 +7,14 @@ import 'package:cinebox/ui/movies/widgets/movies_by_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MoviesScrean extends ConsumerStatefulWidget {
-  const MoviesScrean({super.key});
+class MoviesScreen extends ConsumerStatefulWidget {
+  const MoviesScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MoviesScreanState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MoviesScreenState();
 }
 
-class _MoviesScreanState extends ConsumerState<MoviesScrean> {
+class _MoviesScreenState extends ConsumerState<MoviesScreen> {
   @override
   void initState() {
     super.initState();

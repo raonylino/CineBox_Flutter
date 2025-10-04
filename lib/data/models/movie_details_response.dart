@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie_details_response.g.dart';
@@ -6,10 +8,10 @@ part 'movie_details_response.g.dart';
 class MovieDetailsResponse {
   final String title;
   final String overview;
-  final String releaseDate;
+  final String release_date;
   final int runtime;
-  final double voteAverage;
-  final int voteCount;
+  final double vote_average;
+  final int vote_count;
   final Images images;
   final Credits credits;
   final List<MovieDetailsGenreResponse> genres;
@@ -18,10 +20,10 @@ class MovieDetailsResponse {
   MovieDetailsResponse({
     required this.title,
     required this.overview,
-    required this.releaseDate,
+    required this.release_date,
     required this.runtime,
-    required this.voteAverage,
-    required this.voteCount,
+    required this.vote_average,
+    required this.vote_count,
     required this.images,
     required this.credits,
     required this.genres,

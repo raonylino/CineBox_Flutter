@@ -56,7 +56,7 @@ final class GetMoviesByCategoryUsecaseProvider
 }
 
 String _$getMoviesByCategoryUsecaseHash() =>
-    r'a1402f44e7fc02c62d413b18b021b1d8ac78aa4a';
+    r'a79b56259b5098708c7ebcc69328d36568c7be79';
 
 @ProviderFor(getMoviesByGenreUsecase)
 const getMoviesByGenreUsecaseProvider = GetMoviesByGenreUsecaseProvider._();
@@ -104,7 +104,7 @@ final class GetMoviesByGenreUsecaseProvider
 }
 
 String _$getMoviesByGenreUsecaseHash() =>
-    r'1daf2bb3f7017988887e1169768d9f2b4dd1214a';
+    r'7397f4f680e15bea6e55668cd8c42230be99bc65';
 
 @ProviderFor(getMoviesByNameUsecase)
 const getMoviesByNameUsecaseProvider = GetMoviesByNameUsecaseProvider._();
@@ -152,4 +152,4 @@ final class GetMoviesByNameUsecaseProvider
 }
 
 String _$getMoviesByNameUsecaseHash() =>
-    r'a50c7b6f8f6fc67e45c26f343cd40eb0031b3b66';
+    r'4546c9bb82054cd7c64f494ce075f3cb3080443c';

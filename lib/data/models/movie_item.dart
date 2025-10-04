@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie_item.g.dart';
@@ -8,20 +10,20 @@ class MovieItem {
   final String title;
   final String overview;
   final List<int>? genreIds;
-  final String? posterPath;
-  final String? backdropPath;
-  final double? voteAverage;
-  final String? releaseDate;
+  final String? poster_path;
+  final String? backdrop_path;
+  final double? vote_average;
+  final String? release_date;
 
   MovieItem({
     required this.id,
     required this.title,
     required this.overview,
     this.genreIds,
-    this.posterPath,
-    this.backdropPath,
-    this.voteAverage,
-    this.releaseDate,
+    this.poster_path,
+    this.backdrop_path,
+    this.vote_average,
+    this.release_date,
   });
 
   factory MovieItem.fromJson(Map<String, dynamic> json) =>

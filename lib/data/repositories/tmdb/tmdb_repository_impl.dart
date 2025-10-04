@@ -1,11 +1,12 @@
 import 'dart:developer';
 
-import 'package:cinebox/config/result/result.dart';
+import 'package:cinebox/core/result/result.dart';
 import 'package:cinebox/data/exceptions/data_exception.dart';
 import 'package:cinebox/data/mappers/movie_mappers.dart';
 import 'package:cinebox/data/services/tmdb/tmdb_service.dart';
 import 'package:cinebox/domain/models/genre.dart';
 import 'package:cinebox/domain/models/movie.dart';
+import 'package:cinebox/domain/models/movie_detail.dart';
 import 'package:dio/dio.dart';
 
 import './tmdb_repository.dart';
@@ -166,6 +167,29 @@ class TmdbRepositoryImpl implements TmdbRepository {
       );
       return Failure(
         DataException(message: 'Erro ao buscar filmes por nome'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<MovieDetail>> getMovieDetail({required int movieId}) async {
+    try {
+      final result = await _tmdbService.getMovieDetails(
+        movieId: movieId,
+        appendToResponse:
+            'credits,videos,recommendations,releases_dates,images',
+      );
+      final movieDetail = MovieMappers.mapToMovieDetail(result);
+      return Success(movieDetail);
+    } on DioException catch (e, s) {
+      log(
+        'Erro ao buscar detalhes do filme',
+        name: 'TmdbRepository',
+        error: e,
+        stackTrace: s,
+      );
+      return Failure(
+        DataException(message: 'Erro ao buscar detalhes do filme'),
       );
     }
   }

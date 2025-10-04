@@ -10,12 +10,19 @@ part 'usecases_provider.g.dart';
 GetMoviesByCategoryUsecase getMoviesByCategoryUsecase(Ref ref) =>
     GetMoviesByCategoryUsecase(
       tmdbRepository: ref.watch(tmdbRepositoryProvider),
+      moviesRepository: ref.watch(moviesRepositoryProvider),
     );
 
 @riverpod
 GetMoviesByGenreUsecase getMoviesByGenreUsecase(Ref ref) =>
-    GetMoviesByGenreUsecase(tmdbRepository: ref.watch(tmdbRepositoryProvider));
+    GetMoviesByGenreUsecase(
+      tmdbRepository: ref.watch(tmdbRepositoryProvider),
+      moviesRepository: ref.watch(moviesRepositoryProvider),
+    );
 
 @riverpod
 GetMoviesByNameUsecase getMoviesByNameUsecase(Ref ref) =>
-    GetMoviesByNameUsecase(tmdbRepository: ref.watch(tmdbRepositoryProvider));
+    GetMoviesByNameUsecase(
+      tmdbRepository: ref.watch(tmdbRepositoryProvider),
+      moviesRepository: ref.watch(moviesRepositoryProvider),
+    );

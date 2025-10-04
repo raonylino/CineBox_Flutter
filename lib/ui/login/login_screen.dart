@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
-class LoginScrean extends ConsumerStatefulWidget {
-  const LoginScrean({super.key});
+class LoginScreen extends ConsumerStatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreanState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
 }
 
-class _LoginScreanState extends ConsumerState<LoginScrean>
+class _LoginScreenState extends ConsumerState<LoginScreen>
     with LoaderAndMessage {
   @override
   Widget build(BuildContext context) {

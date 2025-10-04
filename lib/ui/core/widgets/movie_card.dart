@@ -1,5 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cinebox/core/constants/app_routers.dart';
+import 'package:cinebox/ui/core/command/favorite_movie_command.dart';
+import 'package:cinebox/ui/core/command/remove_favorite_movie_command.dart';
+import 'package:cinebox/ui/core/command/save_favorite_movie_command.dart';
 import 'package:cinebox/ui/core/themes/colors.dart';
+import 'package:cinebox/ui/core/widgets/loader_message.dart';
+import 'package:cinebox/ui/core/widgets/movie_card_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,95 +31,162 @@ class MovieCard extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MovieCardState();
 }
 
-class _MovieCardState extends ConsumerState<MovieCard> {
+class _MovieCardState extends ConsumerState<MovieCard> with LoaderAndMessage {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(favoriteMovieCommandProvider(widget.id).notifier)
+          .setFavorite(widget.isFavorite);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          width: 148,
-          height: 250,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CachedNetworkImage(
-                imageUrl: widget.imageUrl,
-                imageBuilder: (context, imageProvider) {
-                  return Container(
-                    width: 148,
-                    height: 184,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
+    final isFavorite = ref.watch(favoriteMovieCommandProvider(widget.id));
+    ref.listen(saveFavoriteMovieCommandProvider(widget.key!, widget.id), (
+      _,
+      next,
+    ) {
+      next.whenOrNull(
+        error: (error, stackTrace) {
+          showErrorSnackbar(
+            'Desculpe nao foi possivel adicionar o filme no favorito',
+          );
+        },
+      );
+    });
+    ref.listen(removeFavoriteMovieCommandProvider(widget.key!, widget.id), (
+      _,
+      next,
+    ) {
+      next.whenOrNull(
+        error: (error, stackTrace) {
+          showErrorSnackbar(
+            'Desculpe nao foi possivel remover o filme no favorito',
+          );
+        },
+      );
+    });
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          AppRouters.movieDetail,
+          arguments: widget.id,
+        );
+      },
+      child: Stack(
+        children: [
+          SizedBox(
+            width: 148,
+            height: 250,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CachedNetworkImage(
+                  imageUrl: widget.imageUrl,
+                  imageBuilder: (context, imageProvider) {
+                    return Container(
+                      width: 148,
+                      height: 184,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                  );
-                },
-                errorWidget: (context, url, error) {
-                  return Container(
-                    width: 148,
-                    height: 184,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.error,
-                        color: Colors.red,
+                    );
+                  },
+                  errorWidget: (context, url, error) {
+                    return Container(
+                      width: 148,
+                      height: 184,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    ),
-                  );
-                },
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
+                      child: const Center(
+                        child: Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        ),
+                      ),
+                    );
+                  },
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                widget.title,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
+                SizedBox(height: 20),
+                Text(
+                  widget.title,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                widget.year.toString(),
-                style: TextStyle(
-                  color: AppColors.lightGrey,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 11,
+                Text(
+                  widget.year.toString(),
+                  style: TextStyle(
+                    color: AppColors.lightGrey,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 11,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Positioned(
-          right: 0,
-          bottom: 50,
-          child: Material(
-            elevation: 8,
-            borderRadius: BorderRadius.circular(30),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 20,
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.favorite_border,
-                  size: 16,
-                  color: AppColors.lightGrey,
+          Positioned(
+            right: 0,
+            bottom: 50,
+            child: Material(
+              elevation: 8,
+              borderRadius: BorderRadius.circular(30),
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 20,
+                child: IconButton(
+                  onPressed:
+                      widget.onFavoriteTap ??
+                      () {
+                        ref
+                            .read(
+                              movieCardViewModelProvider(
+                                widget.key!,
+                                widget.id,
+                              ).notifier,
+                            )
+                            .addOrRemoveFavorite(
+                              id: widget.id,
+                              posterPath: widget.imageUrl,
+                              title: widget.title,
+                              year: widget.year,
+                              favorite: !isFavorite,
+                            );
+                      },
+                  icon: isFavorite
+                      ? const Icon(
+                          Icons.favorite,
+                          color: AppColors.redColor,
+                          size: 16,
+                        )
+                      : const Icon(
+                          Icons.favorite_border,
+                          color: AppColors.lightGrey,
+                          size: 16,
+                        ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

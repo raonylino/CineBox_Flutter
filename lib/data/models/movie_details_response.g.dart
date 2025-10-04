@@ -11,10 +11,10 @@ MovieDetailsResponse _$MovieDetailsResponseFromJson(
 ) => MovieDetailsResponse(
   title: json['title'] as String,
   overview: json['overview'] as String,
-  releaseDate: json['releaseDate'] as String,
+  release_date: json['release_date'] as String,
   runtime: (json['runtime'] as num).toInt(),
-  voteAverage: (json['voteAverage'] as num).toDouble(),
-  voteCount: (json['voteCount'] as num).toInt(),
+  vote_average: (json['vote_average'] as num).toDouble(),
+  vote_count: (json['vote_count'] as num).toInt(),
   images: Images.fromJson(json['images'] as Map<String, dynamic>),
   credits: Credits.fromJson(json['credits'] as Map<String, dynamic>),
   genres: (json['genres'] as List<dynamic>)
@@ -28,10 +28,10 @@ Map<String, dynamic> _$MovieDetailsResponseToJson(
 ) => <String, dynamic>{
   'title': instance.title,
   'overview': instance.overview,
-  'releaseDate': instance.releaseDate,
+  'release_date': instance.release_date,
   'runtime': instance.runtime,
-  'voteAverage': instance.voteAverage,
-  'voteCount': instance.voteCount,
+  'vote_average': instance.vote_average,
+  'vote_count': instance.vote_count,
   'images': instance.images,
   'credits': instance.credits,
   'genres': instance.genres,
