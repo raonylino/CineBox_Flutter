@@ -9,7 +9,7 @@ class MovieItem {
   final int id;
   final String title;
   final String overview;
-  final List<int>? genreIds;
+  final List<int>? genre_ids;
   final String? poster_path;
   final String? backdrop_path;
   final double? vote_average;
@@ -19,7 +19,7 @@ class MovieItem {
     required this.id,
     required this.title,
     required this.overview,
-    this.genreIds,
+    this.genre_ids,
     this.poster_path,
     this.backdrop_path,
     this.vote_average,

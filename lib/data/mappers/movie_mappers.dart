@@ -13,7 +13,7 @@ class MovieMappers {
             id: movie.id,
             title: movie.title,
             overview: movie.overview,
-            genreIds: movie.genreIds ?? [],
+            genreIds: movie.genre_ids ?? [],
             backdropPath: movie.backdrop_path,
             posterPath: movie.poster_path,
             voteAverage: movie.vote_average ?? 0.0,
@@ -27,10 +27,10 @@ class MovieMappers {
     return MovieDetail(
       title: result.title,
       overview: result.overview,
-      releaseDate: result.release_date,
+      releaseDate: result.releaseDate,
       runtime: result.runtime,
-      voteAverage: result.vote_average,
-      voteCount: result.vote_count,
+      voteAverage: result.voteAverage,
+      voteCount: result.voteCount,
       images: result.images.backdrops
           .map((image) => 'https://images.tmdb.org/t/p/w342${image.filePath}')
           .toList(),

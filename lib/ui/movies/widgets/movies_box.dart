@@ -40,6 +40,7 @@ class MoviesBox extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(right: 16),
                     child: MovieCard(
+                      key: UniqueKey(),
                       id: movie.id,
                       title: movie.title,
                       year:
