@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "782828243891",
+    "project_id": "cineboxapp-b7ebe",
+    "storage_bucket": "cineboxapp-b7ebe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782828243891:android:0b78ba4a00222edbfb59c6",
+        "android_client_info": {
+          "package_name": "br.com.academiadoflutter.raony.cinebox"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK3A31up5iFAFHeV7g6w2prrsrHk6pNdk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
